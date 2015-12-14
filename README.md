@@ -1,2 +1,2 @@
 # chemdoodle-angular
-Angular integration for the popular ChemDoodle 
+Angular integration for the popular ChemDoodle chemical sketcher
