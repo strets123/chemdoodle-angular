@@ -5,7 +5,7 @@ Angular integration for the popular ChemDoodle chemical sketcher
 * Chemdoodle 6
 * Angular 1.x
 * jQuery
-* 
+
 ###Installation
 
 From Bower using
