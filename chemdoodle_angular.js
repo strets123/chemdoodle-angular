@@ -12,12 +12,15 @@ angular.module('chemdoodleAngular')
         function resize(newElem){
           var cd_width = jQuery(element).parent().width() * 0.99;
 
-          var max_height = $window.innerHeight * 0.9;
-          var height = cd_width > max_height ? max_height : cd_width;
+          var max_height = $window.innerHeight * 0.5;
+
+          var height = (cd_width*0.7) > max_height ? max_height : cd_width * 0.7;
 
           if(newElem){
             scope.elem = new ChemDoodle.SketcherCanvas(scope.elementid, cd_width, height, {oneMolecule:true, includeToolbar:true, includeQuery:true});
-
+            if(scope.molfile !=""){
+              scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
+            }
           }else{
             scope.elem.resize(cd_width,height);
           }
