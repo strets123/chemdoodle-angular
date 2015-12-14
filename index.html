@@ -37,12 +37,12 @@
     var testChemDoodleApp =  angular.module('chemdoodleAngular', []);
   var elem = new ChemDoodle.SketcherCanvas('chemdoodle', 455, 300, {oneMolecule:true, includeToolbar:true, includeQuery:true});
 
-    angular.module('testChemDoodleApp').controller('testChemDoodleAppController', function ($scope) {
+    angular.module('chemdoodleAngular').controller('testChemDoodleAppController', function ($scope) {
         $scope.molecule = {"molfile": ""};
 
       });
 
- angular.module('testChemDoodleApp')
+ angular.module('chemdoodleAngular')
        .directive('chemdoodlewrapper', function () {
     return {
       restrict: 'E',
