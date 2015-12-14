@@ -23,7 +23,7 @@
      
     </style>
   </head>
-  <body ng-app='testChemDoodleApp' ng-controller="testChemDoodleAppController">
+  <body ng-app='chemdoodleAngular' ng-controller="testChemDoodleAppController">
     {{molecule}}
      <chemdoodlewrapper  molfile="molecule.molfile" >
       <canvas id="chemdoodle"></canvas>
@@ -34,7 +34,7 @@
   </body>
 
   <script>
-    var testChemDoodleApp =  angular.module('testChemDoodleApp', []);
+    var testChemDoodleApp =  angular.module('chemdoodleAngular', []);
   var elem = new ChemDoodle.SketcherCanvas('chemdoodle', 455, 300, {oneMolecule:true, includeToolbar:true, includeQuery:true});
 
     angular.module('testChemDoodleApp').controller('testChemDoodleAppController', function ($scope) {
