@@ -11,12 +11,12 @@
 <!--     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" media="all" rel="stylesheet" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" media="screen" rel="stylesheet" /> -->
     <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">-->
-<link rel="stylesheet" href="https://hub.chemdoodle.com/cwc/latest/ChemDoodleWeb.css">
-<script src="https://hub.chemdoodle.com/cwc/latest/ChemDoodleWeb.js"></script>
+<link rel="stylesheet" href="https://hub.chemdoodle.com/cwc/6.0.0//ChemDoodleWeb.css">
+<script src="https://hub.chemdoodle.com/cwc/6.0.0/ChemDoodleWeb.js"></script>
 
-<link rel="stylesheet" href="https://hub.chemdoodle.com/cwc/latest/uis/jquery-ui-1.10.3.custom.css">
+<link rel="stylesheet" href="https://hub.chemdoodle.com/cwc/6.0.0/uis/jquery-ui-1.10.3.custom.css">
 
-<script src="https://hub.chemdoodle.com/cwc/latest/uis/ChemDoodleWeb-uis.js"></script>
+<script src="https://hub.chemdoodle.com/cwc/6.0.0/uis/ChemDoodleWeb-uis.js"></script>
 
 
     <style type="text/css" rel="stylesheet">
@@ -25,7 +25,7 @@
   </head>
   <body ng-app='chemdoodleAngular' ng-controller="testChemDoodleAppController">
     {{molecule}}
-     <chemdoodlewrapper  molfile="molecule.molfile" >
+     <chemdoodlewrapper  molfile="molecule.molfile" elementid="'chemdoodle'">
       <canvas id="chemdoodle"></canvas>
    </chemdoodlewrapper>
 
@@ -34,48 +34,10 @@
   </body>
 
   <script>
-    var testChemDoodleApp =  angular.module('chemdoodleAngular', []);
-  var elem = new ChemDoodle.SketcherCanvas('chemdoodle', 455, 300, {oneMolecule:true, includeToolbar:true, includeQuery:true});
 
-    angular.module('chemdoodleAngular').controller('testChemDoodleAppController', function ($scope) {
-        $scope.molecule = {"molfile": ""};
-
-      });
-
- angular.module('chemdoodleAngular')
-       .directive('chemdoodlewrapper', function () {
-    return {
-      restrict: 'E',
-      scope:{'molfile' : '=' },
-      link: function postLink(scope, element, attrs) {
-        scope.setMol = function(){
-          var molfile = ChemDoodle.writeMOL(elem.getMolecule()).valueOf();
-          if(btoa(molfile) === "TW9sZWN1bGUgZnJvbSBDaGVtRG9vZGxlIFdlYiBDb21wb25lbnRzCgpodHRwOi8vd3d3LmljaGVtbGFicy5jb20KICAxICAwICAwICAwICAwICAwICAgICAgICAgICAgOTk5IFYyMDAwCiAgICAwLjAwMDAgICAgMC4wMDAwICAgIDAuMDAwMCBDICAgMCAgMCAgMCAgMCAgMCAgMApNICBFTkQ="){
-            //check for methane - you can't search for methane
-            scope.molfile = "";
-          }else{
-            scope.molfile = molfile;
-            var mol = elem.getMolecule();
-            angular.forEach(mol.atoms, function(a){
-                // if(a.query){
-                //   a.label = a.query.cache;
-                //   console.log(ChemDoodle.writeMOL(mol));
-                // }
-            });
-
-
-          }
-        };
-        element.bind ({
-          click : function(e) {
-            scope.$apply(scope.setMol);
-          },
-          keyup : function(e) {
-            scope.$apply(scope.setMol);
-          }
-        });
-      }
-  }});
 
   </script>
+<script src="chemdoodle_angular.js"></script>
+
+
 </html>
