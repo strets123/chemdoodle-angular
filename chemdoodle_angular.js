@@ -10,9 +10,9 @@ angular.module('chemdoodleAngular')
       
         
         function resize(newElem){
-          var cd_width = jQuery(element).parent().width();
+          var cd_width = jQuery(element).parent().width() * 0.99;
 
-          var max_height = $window.innerHeight;
+          var max_height = $window.innerHeight * 0.9;
           var height = cd_width > max_height ? max_height : cd_width;
 
           if(newElem){
