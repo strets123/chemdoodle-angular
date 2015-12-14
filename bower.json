@@ -1,0 +1,24 @@
+{
+  "name": "chemdoodle-angular",
+  "version": "v0.1.0",
+  "homepage": "https://github.com/strets123/chemdoodle-angular",
+  "authors": [
+    "Strets123 <strets123@gmail.com>"
+  ],
+  "description": "Angular integration for the popular ChemDoodle chemical Sketcher",
+  "main": "chemdoodle_angular.js",
+  "keywords": [
+    "chemical",
+    "sketcher",
+    "jquery",
+    "angular"
+  ],
+  "license": "GPL v3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
