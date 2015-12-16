@@ -18,7 +18,7 @@ angular.module('chemdoodleAngular')
 
           if(newElem){
             scope.elem = new ChemDoodle.SketcherCanvas(scope.elementid, cd_width, height, {oneMolecule:true, includeToolbar:true, includeQuery:true});
-            if(scope.molfile !=""){
+            if(scope.molfile){
               scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
             }
           }else{
@@ -26,7 +26,23 @@ angular.module('chemdoodleAngular')
           }
           
         }
-        resize(true);
+        $timeout(function(){
+          resize(true);
+            //bind click events on 
+          jQuery("#" + scope.elementid).prev().bind({
+            click : function(e) {
+              scope.$apply(scope.setMol);
+            }
+          });
+
+          scope.elem.keyup = function(e) {
+              scope.$apply(scope.setMol);
+            };
+
+          scope.elem.click = function(e) {
+              scope.$apply(scope.setMol);
+            };
+        });
         
         scope.setMol = function(){
           var molfile = ChemDoodle.writeMOL(scope.elem.getMolecule()).valueOf();
@@ -44,20 +60,7 @@ angular.module('chemdoodleAngular')
             });
         });
 
-        //bind click events on 
-        jQuery("#" + scope.elementid).prev().bind({
-          click : function(e) {
-            scope.$apply(scope.setMol);
-          }
-        });
-
-        scope.elem.keyup = function(e) {
-            scope.$apply(scope.setMol);
-          };
-
-        scope.elem.click = function(e) {
-            scope.$apply(scope.setMol);
-          };
+      
       }
   }});
 
