@@ -2,10 +2,10 @@
   
 
 angular.module('chemdoodleAngular')
-       .directive('chemdoodlewrapper', function ($timeout, $window) {
+       .directive('chemdoodlewrapper', function ($timeout, $window, $rootScope) {
     return {
       restrict: 'E',
-      scope:{'molfile' : '=' , 'elementid' : '='},
+      scope:{'molfile' : '=' , 'elementid' : '=', 'fulldatabind': '='},
       link: function postLink(scope, element, attrs) {
       
         
@@ -29,19 +29,22 @@ angular.module('chemdoodleAngular')
         $timeout(function(){
           resize(true);
             //bind click events on 
-          jQuery("#" + scope.elementid).prev().bind({
-            click : function(e) {
-              scope.$apply(scope.setMol);
+            if(scope.fulldatabind){
+               jQuery("#" + scope.elementid).prev().bind({
+                click : function(e) {
+                  scope.$apply(scope.setMol);
+                }
+              });
+
+              scope.elem.keyup = function(e) {
+                  scope.$apply(scope.setMol);
+                };
+
+              scope.elem.click = function(e) {
+                  scope.$apply(scope.setMol);
+                };
             }
-          });
-
-          scope.elem.keyup = function(e) {
-              scope.$apply(scope.setMol);
-            };
-
-          scope.elem.click = function(e) {
-              scope.$apply(scope.setMol);
-            };
+         
         });
         
         scope.setMol = function(){
@@ -59,7 +62,9 @@ angular.module('chemdoodleAngular')
                 resize(false);
             });
         });
-
+        $rootScope.$on("fetchMolecule", function(){
+            scope.setMol();
+        });
       
       }
   }});
