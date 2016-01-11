@@ -36,7 +36,7 @@ angular.module('chemdoodleAngular')
       scope:{'molfile' : '=' , 'elementid' : '=', 'fulldatabind': '='},
       link: function postLink(scope, element, attrs) {
       
-        var localhtmlCopy = element.html().valueOf();
+        var localhtmlCopy = '<canvas id="' + scope.elementid + '" fulldatabind="' + scope.fulldatabind + '" molfile="' + scope.molfile + '"></canvas>';
         function resize(newElem){
           var cd_width = jQuery(element).parent().width() * 0.99;
 
@@ -45,6 +45,9 @@ angular.module('chemdoodleAngular')
           var height = (cd_width*0.7) > max_height ? max_height : cd_width * 0.7;
 
           if(newElem){
+            if(detectIE()){
+              element.html(localhtmlCopy);
+            }
             scope.elem = new ChemDoodle.SketcherCanvas(scope.elementid, cd_width, height, {oneMolecule:true, includeToolbar:true, includeQuery:true});
             if(scope.molfile){
               scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
