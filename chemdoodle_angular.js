@@ -1,6 +1,34 @@
     var testChemDoodleApp =  angular.module('chemdoodleAngular', []);
   
 
+function detectIE() {
+    var ua = window.navigator.userAgent;
+
+    var msie = ua.indexOf('MSIE ');
+    if (msie > 0) {
+        // IE 10 or older => return version number
+        return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+    }
+
+    var trident = ua.indexOf('Trident/');
+    if (trident > 0) {
+        // IE 11 => return version number
+        var rv = ua.indexOf('rv:');
+        return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+    }
+
+    var edge = ua.indexOf('Edge/');
+    if (edge > 0) {
+       // Edge (IE 12+) => return version number
+       return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+    }
+
+    // other browser
+    return false;
+}
+
+
+
 angular.module('chemdoodleAngular')
        .directive('chemdoodlewrapper', function ($timeout, $window, $rootScope) {
     return {
@@ -8,7 +36,7 @@ angular.module('chemdoodleAngular')
       scope:{'molfile' : '=' , 'elementid' : '=', 'fulldatabind': '='},
       link: function postLink(scope, element, attrs) {
       
-        
+        var localhtmlCopy = element.html().valueOf();
         function resize(newElem){
           var cd_width = jQuery(element).parent().width() * 0.99;
 
@@ -22,7 +50,17 @@ angular.module('chemdoodleAngular')
               scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
             }
           }else{
-            scope.elem.resize(cd_width,height);
+            if(detectIE()){
+              //If the browser is IE then redraw the whole of the chemdoodle element becuase IE does not rerender it correctly on resize - IE users will lose the undo history but this cannot be helped
+              element.html(localhtmlCopy);
+              scope.elem = new ChemDoodle.SketcherCanvas(scope.elementid, cd_width, height, {oneMolecule:true, includeToolbar:true, includeQuery:true});
+              if(scope.molfile){
+                scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
+              }
+            }else{
+              scope.elem.resize(cd_width,height);
+            }
+            
           }
           
         }
