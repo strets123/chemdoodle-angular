@@ -5,7 +5,7 @@ angular.module('chemdoodleAngular')
        .directive('chemdoodlewrapper', function ($timeout, $window, $rootScope) {
     return {
       restrict: 'E',
-      scope:{'molfile' : '=' , 'elementid' : '=', 'fulldatabind': '='},
+      scope:{'molfile' : '=' , 'elementid' : '='},
       link: function postLink(scope, element, attrs) {
       
         
@@ -15,17 +15,19 @@ angular.module('chemdoodleAngular')
           var max_height = $window.innerHeight * 0.5;
 
           var height = (cd_width*0.7) > max_height ? max_height : cd_width * 0.7;
-          jQuery(element).html( '<canvas id="'+ scope.elementid +'"></canvas>');
-          scope.elem = new ChemDoodle.SketcherCanvas(scope.elementid, cd_width, height, {oneMolecule:true, includeToolbar:true, includeQuery:true});
-          if(scope.molfile){
-              scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
+          if (jQuery('#' + scope.elementid ).is(":visible")){
+              jQuery(element).html( '<canvas id="'+ scope.elementid +'"></canvas>');
+              scope.elem = new ChemDoodle.SketcherCanvas(scope.elementid, cd_width, height, {oneMolecule:true, includeToolbar:true, includeQuery:true});
+              if(scope.molfile){
+                  scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
+              }
           }
+
           
         }
         $timeout(function(){
           resize(true);
             //bind click events on 
-            if(scope.fulldatabind){
                jQuery("#" + scope.elementid).prev().bind({
                 click : function(e) {
                   scope.$apply(scope.setMol);
@@ -39,7 +41,7 @@ angular.module('chemdoodleAngular')
               scope.elem.click = function(e) {
                   scope.$apply(scope.setMol);
                 };
-            }
+            
          
         });
         
