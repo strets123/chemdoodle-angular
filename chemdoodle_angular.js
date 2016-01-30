@@ -61,7 +61,10 @@ angular.module('chemdoodleAngular')
             });
         });
         $rootScope.$on("fetchMolecule", function(){
+          scope.$apply(function() {
             scope.setMol();
+            resize(false);
+          });
         });
       
       }
