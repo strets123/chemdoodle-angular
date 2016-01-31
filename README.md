@@ -42,7 +42,7 @@ Chemdoodle Angular is a wrapper directive which you can place at any level in yo
       <canvas id="chemdoodle"></canvas>
    </chemdoodlewrapper>
 
-Molecule is an object and molfile is a string. The molfile string will be updated when the user clicks a button outside of chemdoodle and an event is triggered
+Molecule is an object and molfile is a string. If you need to change the molfile string from outside of chemdoodle, there are no watchers on the molfile object to improve performance so you need to broadcast a message like this and the ChemDoodle window will update.
 
     $rootScope.$broadcast("fetchMolecule");
     
