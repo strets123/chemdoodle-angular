@@ -25,48 +25,58 @@ angular.module('chemdoodleAngular')
 
           
         }
+         scope.getMol = function(e){
+          $timeout(function(){
+                  scope.$apply(
+                    function(){
+                      var molfile = ChemDoodle.writeMOL(scope.elem.getMolecule()).valueOf();
+                      if(btoa(molfile) === "TW9sZWN1bGUgZnJvbSBDaGVtRG9vZGxlIFdlYiBDb21wb25lbnRzCgpodHRwOi8vd3d3LmljaGVtbGFicy5jb20KICAxICAwICAwICAwICAwICAwICAgICAgICAgICAgOTk5IFYyMDAwCiAgICAwLjAwMDAgICAgMC4wMDAwICAgIDAuMDAwMCBDICAgMCAgMCAgMCAgMCAgMCAgMApNICBFTkQ="){
+                        //check for methane - you can't search for methane
+                        scope.molfile = "";
+                      }else{
+                        scope.molfile = molfile;
+                      }
+                    }
+                );
+            });
+        };
+
         $timeout(function(){
           resize(true);
             //bind click events on 
                jQuery("#" + scope.elementid).prev().bind({
-                click : function(e) {
-                  scope.$apply(scope.setMol);
-                }
+                click : scope.getMol
               });
+              scope.elem.keyup = scope.getMol;
+              scope.elem.click = scope.getMol;
 
-              scope.elem.keyup = function(e) {
-                  scope.$apply(scope.setMol);
-                };
-
-              scope.elem.click = function(e) {
-                  scope.$apply(scope.setMol);
-                };
-            
-         
         });
         
-        scope.setMol = function(){
-          var molfile = ChemDoodle.writeMOL(scope.elem.getMolecule()).valueOf();
-          if(btoa(molfile) === "TW9sZWN1bGUgZnJvbSBDaGVtRG9vZGxlIFdlYiBDb21wb25lbnRzCgpodHRwOi8vd3d3LmljaGVtbGFicy5jb20KICAxICAwICAwICAwICAwICAwICAgICAgICAgICAgOTk5IFYyMDAwCiAgICAwLjAwMDAgICAgMC4wMDAwICAgIDAuMDAwMCBDICAgMCAgMCAgMCAgMCAgMCAgMApNICBFTkQ="){
-            //check for methane - you can't search for methane
-            scope.molfile = "";
-          }else{
-            scope.molfile = molfile;
-          }
-        };
+       
 
         angular.element($window).bind('resize', function() {
             scope.$apply(function() {
                 resize(false);
             });
         });
-        $rootScope.$on("fetchMolecule", function(){
-          scope.$apply(function() {
-            scope.setMol();
-            resize(false);
+        $rootScope.$on("getMolecule", function(){
+            scope.getMol();
+            $timeout(function(){
+            scope.$apply(function() {
+              scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
+            });
           });
         });
       
+        $rootScope.$on("setMolecule", function(){
+          $timeout(function(){
+            scope.$apply(function() {
+              scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
+            });
+          });
+        });
+      
+
       }
   }});
 
