@@ -46,14 +46,16 @@ Molecule is an object and molfile is a string. Chemdoodle will be updated to ref
 
     $rootScope.$broadcast("setMolecule");
     
-    
-For dynamic data binding to work, use an extra attribute to enable, this fix breaks in Explorer due to the click events not being handled properly hence not on by default...
-
-    <chemdoodlewrapper  molfile="molecule.molfile" elementid="'chemdoodle'" fulldatabind="true">
-      <canvas id="chemdoodle"></canvas>
-    </chemdoodlewrapper>
 
 To allow for situations where the molecule has been deleted, methane is assumed to be an empty molecule.
+
+If you would like to run some code when the contents of the sketcher window has changed (or at least on click of the sketcher window) then use:
+
+$scope.$on("moleculeChanged", function(){
+                $scope.dataReady = false;
+                $scope.dataset = undefined;
+            });
+
 
 The following features of chemdoodle are not supported with molfile export:
 
