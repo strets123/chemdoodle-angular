@@ -42,9 +42,9 @@ Chemdoodle Angular is a wrapper directive which you can place at any level in yo
       <canvas id="chemdoodle"></canvas>
    </chemdoodlewrapper>
 
-Molecule is an object and molfile is a string. The molfile string will be updated when the user clicks a button outside of chemdoodle and an event is triggered
+Molecule is an object and molfile is a string. Chemdoodle will be updated to reflect the molfile string when the following event is broadcasted. This is to avoid watchers.
 
-    $rootScope.$broadcast("getMolecule");
+    $rootScope.$broadcast("setMolecule");
     
     
 For dynamic data binding to work, use an extra attribute to enable, this fix breaks in Explorer due to the click events not being handled properly hence not on by default...
