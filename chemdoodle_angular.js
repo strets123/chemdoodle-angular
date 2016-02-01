@@ -31,13 +31,22 @@ angular.module('chemdoodleAngular')
                   scope.$apply(
                     function(){
                       var molfile = ChemDoodle.writeMOL(scope.elem.getMolecule()).valueOf();
+
                       if(btoa(molfile) === scope.methane ){
                         //check for methane - you can't search for methane
-                        scope.molfile = "";
+                        if(scope.molfile !== ""){
+                          scope.molfile = "";
+                          $rootScope.$broadcast("moleculeChanged");
+                        }
+                        
                       }else{
-                        scope.molfile = molfile;
+                        if(molfile !==scope.molfile){
+                          scope.molfile = molfile;
+                          $rootScope.$broadcast("moleculeChanged");
+                        }
+                        
                       }
-                      $rootScope.$broadcast("moleculeChanged");
+                      
                     }
                 );
             });
