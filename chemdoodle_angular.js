@@ -37,6 +37,7 @@ angular.module('chemdoodleAngular')
                       }else{
                         scope.molfile = molfile;
                       }
+                      $rootScope.$broadcast("moleculeChanged");
                     }
                 );
             });
