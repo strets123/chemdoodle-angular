@@ -25,12 +25,13 @@ angular.module('chemdoodleAngular')
 
           
         }
+        scope.methane = "TW9sZWN1bGUgZnJvbSBDaGVtRG9vZGxlIFdlYiBDb21wb25lbnRzCgpodHRwOi8vd3d3LmljaGVtbGFicy5jb20KICAxICAwICAwICAwICAwICAwICAgICAgICAgICAgOTk5IFYyMDAwCiAgICAwLjAwMDAgICAgMC4wMDAwICAgIDAuMDAwMCBDICAgMCAgMCAgMCAgMCAgMCAgMApNICBFTkQ=";
          scope.getMol = function(e){
           $timeout(function(){
                   scope.$apply(
                     function(){
                       var molfile = ChemDoodle.writeMOL(scope.elem.getMolecule()).valueOf();
-                      if(btoa(molfile) === "TW9sZWN1bGUgZnJvbSBDaGVtRG9vZGxlIFdlYiBDb21wb25lbnRzCgpodHRwOi8vd3d3LmljaGVtbGFicy5jb20KICAxICAwICAwICAwICAwICAwICAgICAgICAgICAgOTk5IFYyMDAwCiAgICAwLjAwMDAgICAgMC4wMDAwICAgIDAuMDAwMCBDICAgMCAgMCAgMCAgMCAgMCAgMApNICBFTkQ="){
+                      if(btoa(molfile) === scope.methane ){
                         //check for methane - you can't search for methane
                         scope.molfile = "";
                       }else{
@@ -52,26 +53,20 @@ angular.module('chemdoodleAngular')
 
         });
         
-       
-
         angular.element($window).bind('resize', function() {
             scope.$apply(function() {
                 resize(false);
             });
         });
-        $rootScope.$on("getMolecule", function(){
-            scope.getMol();
-            $timeout(function(){
-            scope.$apply(function() {
-              scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
-            });
-          });
-        });
-      
         $rootScope.$on("setMolecule", function(){
           $timeout(function(){
             scope.$apply(function() {
-              scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
+              if(scope.molfile){
+                  scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
+              }else{
+                //Set the canvas to blank
+                scope.elem.loadMolecule(ChemDoodle.readMOL(atob(scope.methane)));
+              }
             });
           });
         });
