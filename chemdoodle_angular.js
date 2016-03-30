@@ -21,6 +21,12 @@ angular.module('chemdoodleAngular')
               if(scope.molfile){
                   scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
               }
+            //bind click events - we have to do this each time we resize as it is a new chemdoodle element 
+               jQuery("#" + scope.elementid).prev().bind({
+                click : scope.getMol
+              });
+              scope.elem.keyup = scope.getMol;
+              scope.elem.click = scope.getMol;
           }
 
           
@@ -54,12 +60,7 @@ angular.module('chemdoodleAngular')
 
         $timeout(function(){
           resize(true);
-            //bind click events on 
-               jQuery("#" + scope.elementid).prev().bind({
-                click : scope.getMol
-              });
-              scope.elem.keyup = scope.getMol;
-              scope.elem.click = scope.getMol;
+   
 
         });
         
