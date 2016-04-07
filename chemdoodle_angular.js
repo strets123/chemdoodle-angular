@@ -16,6 +16,7 @@ angular.module('chemdoodleAngular')
 
           var height = (cd_width*0.7) > max_height ? max_height : cd_width * 0.7;
           if (jQuery('#' + scope.elementid ).is(":visible")){
+            
               jQuery(element).html( '<canvas id="'+ scope.elementid +'"></canvas>');
               scope.elem = new ChemDoodle.SketcherCanvas(scope.elementid, cd_width, height, {oneMolecule:true, includeToolbar:true, includeQuery:true});
               if(scope.molfile){
@@ -72,12 +73,15 @@ angular.module('chemdoodleAngular')
         $rootScope.$on("setMolecule", function(){
           $timeout(function(){
             scope.$apply(function() {
-              if(scope.molfile){
+              if(jQuery('#' + scope.elementid ).is(":visible")){
+                 if(scope.molfile){
                   scope.elem.loadMolecule(ChemDoodle.readMOL(scope.molfile));
-              }else{
-                //Set the canvas to blank
-                scope.elem.loadMolecule(ChemDoodle.readMOL(atob(scope.methane)));
+                  }else{
+                    //Set the canvas to blank
+                    scope.elem.loadMolecule(ChemDoodle.readMOL(atob(scope.methane)));
+                  }
               }
+             
             });
           });
         });
