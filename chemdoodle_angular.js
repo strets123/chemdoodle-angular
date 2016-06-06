@@ -5,10 +5,16 @@ angular.module('chemdoodleAngular')
        .directive('chemdoodlewrapper', function ($timeout, $window, $rootScope) {
     return {
       restrict: 'E',
-      scope:{'molfile' : '=' , 'elementid' : '='},
+      scope:{'molfile' : '=' , 
+             'elementid' : '=', 
+             'moleculeChangedEventName':'=?',
+             'setMoleculeEventName': '=?'
+           },
+
       link: function postLink(scope, element, attrs) {
-      
-        
+        if (!angular.isDefined(scope.moleculeChangedEventName)) { scope.moleculeChangedEventName = 'moleculeChanged'; }
+        if (!angular.isDefined(scope.setMoleculeEventName)) { scope.setMoleculeEventName = 'setMolecule'; }
+        console.log(scope.setMoleculeEventName)
         function resize(newElem){
           var cd_width = jQuery(element).parent().width() * 0.99;
 
@@ -43,13 +49,13 @@ angular.module('chemdoodleAngular')
                         //check for methane - you can't search for methane
                         if(scope.molfile !== ""){
                           scope.molfile = "";
-                          $rootScope.$broadcast("moleculeChanged");
+                          $rootScope.$broadcast(scope.moleculeChangedEventName);
                         }
                         
                       }else{
                         if(molfile !==scope.molfile){
                           scope.molfile = molfile;
-                          $rootScope.$broadcast("moleculeChanged");
+                          $rootScope.$broadcast(scope.moleculeChangedEventName);
                         }
                         
                       }
@@ -70,7 +76,7 @@ angular.module('chemdoodleAngular')
                 resize(false);
             });
         });
-        $rootScope.$on("setMolecule", function(){
+        $rootScope.$on(scope.setMoleculeEventName, function(){
           $timeout(function(){
             scope.$apply(function() {
               if(jQuery('#' + scope.elementid ).is(":visible")){
